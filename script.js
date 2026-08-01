@@ -17,11 +17,32 @@ btnNext1.addEventListener('click', () => {
     appOverlay.style.backgroundColor = '#e0f7fa'; // Change background to pastel blue
 });
 
-// Screen 2 -> Screen 3
-btnNext2.addEventListener('click', () => {
-    screen2.style.display = 'none';
-    screen3.style.display = 'block';
-    appOverlay.style.backgroundColor = '#fff9c4'; // Change background to pastel yellow
+// --- NEW LOGIC FOR SCREEN 2 ---
+const fingerprintScanner = document.getElementById('fingerprint-scanner');
+const scanText = document.getElementById('scan-text');
+let isScanning = false;
+
+fingerprintScanner.addEventListener('click', () => {
+    // Prevent them from clicking it multiple times while it's "scanning"
+    if (isScanning) return;
+    isScanning = true;
+
+    // 1. Change text and color to simulate scanning
+    scanText.innerText = "SCANNING...";
+    fingerprintScanner.style.backgroundColor = "#c8e6c9"; // Pastel green
+    
+    // 2. Wait 1.5 seconds, then show success
+    setTimeout(() => {
+        scanText.innerText = "IDENTITY VERIFIED ✔️";
+        
+        // 3. Wait 1 more second, then move to Screen 3
+        setTimeout(() => {
+            screen2.style.display = 'none';
+            screen3.style.display = 'block';
+            appOverlay.style.backgroundColor = '#fff9c4'; // Change background to pastel yellow
+        }, 1000);
+        
+    }, 1500);
 });
 
 // Screen 3 -> Fade into Canvas Animation
