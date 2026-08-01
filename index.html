@@ -137,6 +137,59 @@
             padding: 0 5px;
             font-weight: bold;
         }
+
+        /* --- POLAROID STYLES --- */
+        .polaroid-stack {
+            position: relative;
+            display: flex;
+            justify-content: center;
+        }
+
+        .polaroid {
+            position: absolute;
+            width: 240px;
+            background: #fff;
+            padding: 12px 12px 20px 12px;
+            border: 2px solid #000;
+            box-shadow: 6px 6px 0px rgba(0,0,0,0.8);
+            transition: transform 0.4s ease, opacity 0.4s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .photo-placeholder {
+            width: 100%;
+            height: 220px;
+            background-color: #333;
+            border: 2px solid #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #888;
+            overflow: hidden;
+        }
+
+        .photo-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Keeps images looking good without stretching */
+        }
+
+        .polaroid .caption {
+            font-family: 'Georgia', serif;
+            text-align: center;
+            margin-top: 15px;
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+
+        /* The animation class added by JavaScript when clicked */
+        .swipe-out {
+            transform: translate(200px, -50px) rotate(30deg) !important;
+            opacity: 0;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
@@ -178,6 +231,69 @@
                     <p id="scan-text" class="label" style="margin: 0; font-size: 0.9em; color: #000;">TAP TO SCAN FINGERPRINT</p>
                 </div>
             </div>
+        </div>
+
+        <!-- Screen 2.5: Hacker Terminal -->
+        <div id="screen-terminal" class="app-screen" style="display: none; width: 100%; max-width: 100%;">
+            <div id="terminal-text" style="color: #0f0; font-family: monospace; font-size: 1.1em; line-height: 1.8; padding: 20px;">
+                <!-- Text injected by JS -->
+            </div>
+        </div>
+
+        <!-- Screen 2.75: Polaroids -->
+        <div id="screen-polaroids" class="app-screen" style="display: none; align-items: center;">
+            <div class="polaroid-stack">
+                
+                <!-- Card 6 (Very Bottom) -->
+                <div class="polaroid" style="transform: rotate(-6deg); z-index: 1;" id="p6">
+                    <div class="photo-placeholder">
+                        <img src="IMG-20260801-WA0003.jpg">
+                    </div>
+                    <p class="caption">Building the anaerobic digester closed-loop 🌿</p>
+                </div>
+
+                <!-- Card 5 -->
+                <div class="polaroid" style="transform: rotate(5deg); z-index: 2;" id="p5">
+                    <div class="photo-placeholder">
+                        <img src="IMG-20260220-WA0006.jpg">
+                    </div>
+                    <p class="caption">First prize at the model making competition 🏆</p>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="polaroid" style="transform: rotate(-2deg); z-index: 3;" id="p4">
+                    <div class="photo-placeholder">
+                        <img src="IMG-20260623-WA0011.jpg">
+                    </div>
+                    <p class="caption">Cream Stone outings 🍦</p>
+                </div>
+                
+                <!-- Card 3 -->
+                <div class="polaroid" style="transform: rotate(4deg); z-index: 4;" id="p3">
+                    <div class="photo-placeholder">
+                        <img src="IMG-20260801-WA0001.jpg">
+                    </div>
+                    <p class="caption">MovieMax madness 🎬</p>
+                </div>
+                
+                <!-- Card 2 -->
+                <div class="polaroid" style="transform: rotate(-4deg); z-index: 5;" id="p2">
+                    <div class="photo-placeholder">
+                        <img src="IMG-20251107-WA0000(1).jpg">
+                    </div>
+                    <p class="caption">Our digital twin system actually working 💻</p>
+                </div>
+                
+                <!-- Card 1 (Very Top) -->
+                <div class="polaroid" style="transform: rotate(2deg); z-index: 6;" id="p1">
+                    <div class="photo-placeholder">
+                        <img src="IMG-20260801-WA0002.jpg">
+                    </div>
+                    <p class="caption">Surviving the control systems project 💀</p>
+                </div>
+
+            </div>
+            <p class="action-hint" style="margin-top: 320px; text-align: center;">Tap photo to swipe ➔</p>
         </div>
 
         <!-- Screen 3: The Letter & Transition -->

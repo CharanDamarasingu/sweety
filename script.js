@@ -17,32 +17,86 @@ btnNext1.addEventListener('click', () => {
     appOverlay.style.backgroundColor = '#e0f7fa'; // Change background to pastel blue
 });
 
-// --- NEW LOGIC FOR SCREEN 2 ---
+// --- NEW LOGIC FOR SCREEN 2, TERMINAL & POLAROIDS ---
+const screenTerminal = document.getElementById('screen-terminal');
+const screenPolaroids = document.getElementById('screen-polaroids');
+const terminalText = document.getElementById('terminal-text');
 const fingerprintScanner = document.getElementById('fingerprint-scanner');
 const scanText = document.getElementById('scan-text');
+
 let isScanning = false;
 
+// 1. The Hacker Terminal Logs
+const terminalLines = [
+    "> Establishing connection...",
+    "> Bypassing server security...",
+    "> Fetching digital twin parameters...",
+    "> Initializing anaerobic digester closed-loop...",
+    "> Syncing control system data...",
+    "> ACCESS GRANTED. Welcome."
+];
+
 fingerprintScanner.addEventListener('click', () => {
-    // Prevent them from clicking it multiple times while it's "scanning"
     if (isScanning) return;
     isScanning = true;
 
-    // 1. Change text and color to simulate scanning
     scanText.innerText = "SCANNING...";
-    fingerprintScanner.style.backgroundColor = "#c8e6c9"; // Pastel green
+    fingerprintScanner.style.backgroundColor = "#c8e6c9"; 
     
-    // 2. Wait 1.5 seconds, then show success
     setTimeout(() => {
         scanText.innerText = "IDENTITY VERIFIED ✔️";
         
-        // 3. Wait 1 more second, then move to Screen 3
         setTimeout(() => {
+            // Hide Agreement, Show Terminal
             screen2.style.display = 'none';
-            screen3.style.display = 'block';
-            appOverlay.style.backgroundColor = '#fff9c4'; // Change background to pastel yellow
+            screenTerminal.style.display = 'block';
+            appOverlay.style.backgroundColor = '#000'; // Matrix black
+            
+            // Start the typing effect
+            typeTerminalLines(0);
         }, 1000);
-        
     }, 1500);
+});
+
+// 2. The Typing Function
+function typeTerminalLines(index) {
+    if (index < terminalLines.length) {
+        terminalText.innerHTML += terminalLines[index] + "<br><br>";
+        
+        // Random typing delay between 400ms and 900ms for realism
+        let delay = Math.random() * 500 + 400; 
+        setTimeout(() => typeTerminalLines(index + 1), delay);
+    } else {
+        // When terminal finishes, show Polaroids
+        setTimeout(() => {
+            screenTerminal.style.display = 'none';
+            screenPolaroids.style.display = 'flex';
+            appOverlay.style.backgroundColor = '#ffccbc'; // Pastel peach for photos
+        }, 1200);
+    }
+}
+
+// 3. The Polaroid Swipe Logic
+const polaroids = document.querySelectorAll('.polaroid');
+let currentPolaroid = polaroids.length - 1; // Start with the top card (index 2)
+
+polaroids.forEach((p, index) => {
+    p.addEventListener('click', () => {
+        if (index !== currentPolaroid) return; // Only let them click the top card
+        
+        // Add the CSS class to fly it off screen
+        p.classList.add('swipe-out');
+        currentPolaroid--;
+
+        // If all cards are swiped away, go to the final Notepad Letter
+        if (currentPolaroid < 0) {
+            setTimeout(() => {
+                screenPolaroids.style.display = 'none';
+                screen3.style.display = 'block';
+                appOverlay.style.backgroundColor = '#fff9c4'; // Pastel yellow
+            }, 500);
+        }
+    });
 });
 
 // Screen 3 -> Fade into Canvas Animation
